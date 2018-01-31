@@ -2,9 +2,9 @@ package main
 
 import (
 	"net/http"
-	"producer/Protocol"
 
 	"github.com/Shopify/sarama"
+	"github.com/codeuniversity/xing-datahub-producer/Protocol"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 )
