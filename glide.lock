@@ -1,0 +1,10 @@
+hash: 577a66991bb24ea3409a2ca381f49510daa3bcd3cb615656bf0e8efa1837c167
+updated: 2018-01-31T22:23:54.160361+01:00
+imports:
+- name: github.com/golang/protobuf
+  version: 925541529c1fa6821df4e44ce2723319eb2be768
+  subpackages:
+  - proto
+- name: github.com/Shopify/sarama
+  version: 3b1b38866a79f06deddf0487d5c27ba0697ccd65
+testImports: []

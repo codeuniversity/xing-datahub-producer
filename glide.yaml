@@ -1,0 +1,8 @@
+package: producer
+import:
+- package: github.com/golang/protobuf
+  version: ^1.0.0
+  subpackages:
+  - proto
+- package: github.com/Shopify/sarama
+  version: ^1.15.0
