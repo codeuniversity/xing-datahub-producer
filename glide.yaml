@@ -6,3 +6,4 @@ import:
   - proto
 - package: github.com/Shopify/sarama
   version: ^1.15.0
+- package: github.com/davecgh/go-spew/spew
