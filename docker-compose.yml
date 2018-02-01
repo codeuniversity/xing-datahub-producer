@@ -1,0 +1,8 @@
+version: '3'
+services:
+  go:
+    build: .
+    command: tail -f /dev/null
+    network_mode: "host"
+    volumes:
+      - .:/go/src/xing-datahub-producer
