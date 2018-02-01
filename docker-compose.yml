@@ -6,3 +6,5 @@ services:
     network_mode: "host"
     volumes:
       - .:/go/src/xing-datahub-producer
+    ports:
+      - "8080:8080"
