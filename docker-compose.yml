@@ -5,6 +5,6 @@ services:
     command: tail -f /dev/null
     network_mode: "host"
     volumes:
-      - .:/go/src/xing-datahub-producer
+      - .:/go/src/github.com/codeuniversity/xing-datahub-producer
     ports:
       - "8080:8080"

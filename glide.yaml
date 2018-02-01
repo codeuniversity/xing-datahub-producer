@@ -1,4 +1,4 @@
-package: producer
+package: github.com/codeuniversity/xing-datahub-producer
 import:
 - package: github.com/golang/protobuf
   version: ^1.0.0
