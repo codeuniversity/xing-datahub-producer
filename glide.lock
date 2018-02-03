@@ -1,10 +1,8 @@
-hash: a3d73249afd42a02ebf20c54e89b9dd6ede087b901168c6747aeeb8dcb526d13
-updated: 2018-02-01T00:26:35.711880532Z
+hash: f6123842c3e153358d301eae604d91b5899267c6a5ce7c5909b2f6d236921d77
+updated: 2018-02-03T12:57:43.247732+01:00
 imports:
-- name: github.com/codeuniversity/xing-datahub-producer
-  version: 7e49660b87f8769cbdaba49b3be685e2367369ab
-  subpackages:
-  - Protocol
+- name: github.com/codeuniversity/xing-datahub-protocol
+  version: 2399e15db6ab3aa59b2f26e4ad3f644b589caf2e
 - name: github.com/davecgh/go-spew
   version: db69d09d2c587e9b9677f991dfcab1fc24d9086e
   subpackages:

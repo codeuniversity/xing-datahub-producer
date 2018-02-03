@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/Shopify/sarama"
-	"github.com/codeuniversity/xing-datahub-producer/Protocol"
 	"github.com/codeuniversity/xing-datahub-producer/handler"
+	"github.com/codeuniversity/xing-datahub-protocol"
 )
 
 func main() {
@@ -18,14 +18,13 @@ func main() {
 	}
 	userHandler := handler.RequestHandler{
 		Producer:     producer,
-		ProtoMessage: &Protocol.User{},
+		ProtoMessage: &protocol.User{},
 		Topic:        "users",
 	}
 	http.Handle("/users", userHandler)
-
 	connectionHandler := handler.RequestHandler{
 		Producer:     producer,
-		ProtoMessage: &Protocol.Connection{},
+		ProtoMessage: &protocol.Connection{},
 		Topic:        "connections",
 	}
 	http.Handle("/connections", connectionHandler)
