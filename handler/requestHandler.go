@@ -10,7 +10,7 @@ import (
 
 // RequestHandler serializes json posts to protobuf messages and pushes them to the specified kafka topic
 type RequestHandler struct {
-	Producer     sarama.SyncProducer
+	Producer     sarama.AsyncProducer
 	Topic        string
 	ProtoMessage proto.Message
 }
@@ -28,9 +28,6 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Value: sarama.ByteEncoder(message),
 	}
 
-	if _, _, err := h.Producer.SendMessage(m); err != nil {
-		w.WriteHeader(500)
-		return
-	}
+	h.Producer.Input() <- m
 	w.WriteHeader(200)
 }
