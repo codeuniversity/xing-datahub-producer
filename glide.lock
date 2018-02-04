@@ -2,7 +2,7 @@ hash: f6123842c3e153358d301eae604d91b5899267c6a5ce7c5909b2f6d236921d77
 updated: 2018-02-03T12:57:43.247732+01:00
 imports:
 - name: github.com/codeuniversity/xing-datahub-protocol
-  version: ffe4092a0566d60b842e8be9bde96a578fc3a415
+  version: 10fc0bbb51dc66246ecfa433e4bf3d370e4fb19e
 - name: github.com/davecgh/go-spew
   version: db69d09d2c587e9b9677f991dfcab1fc24d9086e
   subpackages:
