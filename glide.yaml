@@ -10,3 +10,6 @@ import:
   subpackages:
   - spew
 - package: github.com/codeuniversity/xing-datahub-protocol
+- package: golang.org/x/crypto
+  subpackages:
+  - acme/autocert

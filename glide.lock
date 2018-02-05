@@ -1,5 +1,5 @@
-hash: f6123842c3e153358d301eae604d91b5899267c6a5ce7c5909b2f6d236921d77
-updated: 2018-02-03T12:57:43.247732+01:00
+hash: e358ecb6702e7ea643536fd192042bafda21911d3bb30378b886da5e4cd03a34
+updated: 2018-02-05T15:49:22.161829+01:00
 imports:
 - name: github.com/codeuniversity/xing-datahub-protocol
   version: 10fc0bbb51dc66246ecfa433e4bf3d370e4fb19e
@@ -33,4 +33,8 @@ imports:
   version: 8732c616f52954686704c8645fe1a9d59e9df7c1
 - name: github.com/Shopify/sarama
   version: 3b1b38866a79f06deddf0487d5c27ba0697ccd65
+- name: golang.org/x/crypto
+  version: 1875d0a70c90e57f11972aefd42276df65e895b9
+  subpackages:
+  - acme/autocert
 testImports: []

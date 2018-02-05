@@ -1,11 +1,15 @@
 package main
 
 import (
+	"crypto/tls"
+	"log"
 	"net/http"
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/handler"
 	"github.com/codeuniversity/xing-datahub-protocol"
+
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
@@ -55,4 +59,19 @@ func main() {
 	if err := http.ListenAndServe(":3000", nil); err != nil {
 		panic(err)
 	}
+
+	//ssl handling
+
+	certManager := autocert.Manager{
+		Prompt: autocert.AcceptTOS,
+		Cache:  autocert.DirCache("/certs"), //Folder for storing certificates
+	}
+	server := &http.Server{
+		Addr: ":3000",
+		TLSConfig: &tls.Config{
+			GetCertificate: certManager.GetCertificate,
+		},
+	}
+
+	log.Fatal(server.ListenAndServeTLS("", ""))
 }
