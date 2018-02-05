@@ -21,7 +21,7 @@ type RequestHandler struct {
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err := checkToken(r); err != nil {
 		fmt.Println(err)
-		w.WriteHeader(500)
+		w.WriteHeader(401)
 		return
 	}
 
