@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/Shopify/sarama"
 	"github.com/golang/protobuf/jsonpb"
@@ -16,6 +19,12 @@ type RequestHandler struct {
 }
 
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if err := checkToken(r); err != nil {
+		fmt.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+
 	h.ProtoMessage.Reset()
 	jsonpb.Unmarshal(r.Body, h.ProtoMessage)
 	message, err := proto.Marshal(h.ProtoMessage)
@@ -30,4 +39,16 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	h.Producer.Input() <- m
 	w.WriteHeader(200)
+}
+
+func checkToken(r *http.Request) error {
+	envToken := os.Getenv("token")
+	if envToken == "" {
+		return nil
+	}
+	token := r.Header.Get("access-token")
+	if token != envToken {
+		return errors.New("acess-token doesn't match, got: " + token)
+	}
+	return nil
 }
