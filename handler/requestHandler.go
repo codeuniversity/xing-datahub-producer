@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/Shopify/sarama"
+	"github.com/codeuniversity/xing-datahub-producer/metrics"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 )
@@ -21,7 +23,7 @@ type RequestHandler struct {
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err := checkToken(r); err != nil {
 		fmt.Println(err)
-		w.WriteHeader(401)
+		h.answerWith(w, 401)
 		return
 	}
 
@@ -29,7 +31,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	jsonpb.Unmarshal(r.Body, h.ProtoMessage)
 	message, err := proto.Marshal(h.ProtoMessage)
 	if err != nil {
-		w.WriteHeader(500)
+		h.answerWith(w, 500)
 		return
 	}
 	m := &sarama.ProducerMessage{
@@ -38,7 +40,12 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.Producer.Input() <- m
-	w.WriteHeader(200)
+	h.answerWith(w, 200)
+}
+
+func (h *RequestHandler) answerWith(w http.ResponseWriter, code int) {
+	w.WriteHeader(code)
+	metrics.HTTPProcessed.WithLabelValues(strconv.Itoa(code), h.Topic).Inc()
 }
 
 func checkToken(r *http.Request) error {

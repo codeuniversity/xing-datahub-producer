@@ -1,5 +1,5 @@
-hash: e358ecb6702e7ea643536fd192042bafda21911d3bb30378b886da5e4cd03a34
-updated: 2018-02-05T15:49:22.161829+01:00
+hash: 30c2c0c842bbcd23ccf3546885182c24ba32cd24774a4786325a80f27fd7060f
+updated: 2018-02-14T09:43:31.786809+01:00
 imports:
 - name: github.com/codeuniversity/xing-datahub-protocol
   version: 10fc0bbb51dc66246ecfa433e4bf3d370e4fb19e
@@ -29,12 +29,17 @@ imports:
   version: a0006b13c722f7f12368c00a3d3c2ae8a999a0c6
   subpackages:
   - xxHash32
+- name: github.com/prometheus/client_golang
+  version: 967789050ba94deca04a5e84cce8ad472ce313c1
+  subpackages:
+  - prometheus
 - name: github.com/rcrowley/go-metrics
   version: 8732c616f52954686704c8645fe1a9d59e9df7c1
 - name: github.com/Shopify/sarama
-  version: 3b1b38866a79f06deddf0487d5c27ba0697ccd65
+  version: f7be6aa2bc7b2e38edf816b08b582782194a1c02
 - name: golang.org/x/crypto
   version: 1875d0a70c90e57f11972aefd42276df65e895b9
   subpackages:
+  - acme
   - acme/autocert
 testImports: []

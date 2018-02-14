@@ -7,7 +7,9 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/handler"
+	"github.com/codeuniversity/xing-datahub-producer/metrics"
 	"github.com/codeuniversity/xing-datahub-protocol"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"golang.org/x/crypto/acme/autocert"
 )
@@ -21,6 +23,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	initPrometheus()
+
 	userHandler := handler.RequestHandler{
 		Producer:     producer,
 		ProtoMessage: &protocol.User{},
@@ -74,4 +78,10 @@ func main() {
 	}
 
 	log.Fatal(server.ListenAndServeTLS("", ""))
+}
+
+func initPrometheus() {
+	prometheus.MustRegister(metrics.HTTPProcessed)
+
+	http.Handle("/metrics", prometheus.Handler())
 }
