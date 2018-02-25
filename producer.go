@@ -28,6 +28,7 @@ func main() {
 	userHandler := handler.RequestHandler{
 		Producer:     producer,
 		ProtoMessage: &protocol.User{},
+		RawMessage:   &protocol.RawUser{},
 		Topic:        "users",
 	}
 	http.Handle("/users", userHandler)
@@ -35,6 +36,7 @@ func main() {
 	itemHandler := handler.RequestHandler{
 		Producer:     producer,
 		ProtoMessage: &protocol.Item{},
+		RawMessage:   &protocol.RawItem{},
 		Topic:        "items",
 	}
 	http.Handle("/items", itemHandler)
@@ -42,6 +44,7 @@ func main() {
 	interactionHandler := handler.RequestHandler{
 		Producer:     producer,
 		ProtoMessage: &protocol.Interaction{},
+		RawMessage:   &protocol.RawInteraction{},
 		Topic:        "interactions",
 	}
 	http.Handle("/interactions", interactionHandler)
@@ -49,13 +52,15 @@ func main() {
 	targetItemHandler := handler.RequestHandler{
 		Producer:     producer,
 		ProtoMessage: &protocol.TargetItem{},
+		RawMessage:   &protocol.RawTargetItem{},
 		Topic:        "target_items",
 	}
 	http.Handle("/target_items", targetItemHandler)
 
 	targetUserHandler := handler.RequestHandler{
 		Producer:     producer,
-		ProtoMessage: &protocol.Interaction{},
+		ProtoMessage: &protocol.TargetUser{},
+		RawMessage:   &protocol.RawTargetUser{},
 		Topic:        "target_users",
 	}
 	http.Handle("/target_users", targetUserHandler)

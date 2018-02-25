@@ -31,7 +31,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	h.ProtoMessage.Reset()
 	jsonpb.Unmarshal(r.Body, h.RawMessage)
-	message, err := proto.Marshal(*h.RawMessage.Parse())
+	message, err := proto.Marshal(h.RawMessage.Parse())
 	if err != nil {
 		h.answerWith(w, 500)
 		return
