@@ -9,6 +9,7 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/metrics"
+	protocol "github.com/codeuniversity/xing-datahub-protocol"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 )
@@ -18,6 +19,7 @@ type RequestHandler struct {
 	Producer     sarama.AsyncProducer
 	Topic        string
 	ProtoMessage proto.Message
+	RawMessage   protocol.RawMessage
 }
 
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -28,8 +30,8 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.ProtoMessage.Reset()
-	jsonpb.Unmarshal(r.Body, h.ProtoMessage)
-	message, err := proto.Marshal(h.ProtoMessage)
+	jsonpb.Unmarshal(r.Body, h.RawMessage)
+	message, err := proto.Marshal(*h.RawMessage.Parse())
 	if err != nil {
 		h.answerWith(w, 500)
 		return
