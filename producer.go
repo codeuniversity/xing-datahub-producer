@@ -55,7 +55,7 @@ func main() {
 
 	targetUserHandler := handler.RequestHandler{
 		Producer:     producer,
-		ProtoMessage: &protocol.Interaction{},
+		ProtoMessage: &protocol.TargetUser{},
 		Topic:        "target_users",
 	}
 	http.Handle("/target_users", targetUserHandler)
