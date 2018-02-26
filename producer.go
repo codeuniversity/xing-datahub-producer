@@ -26,42 +26,37 @@ func main() {
 	initPrometheus()
 
 	userHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.User{},
-		RawMessage:   &protocol.RawUser{},
-		Topic:        "users",
+		Producer:   producer,
+		RawMessage: &protocol.RawUser{},
+		Topic:      "users",
 	}
 	http.Handle("/users", userHandler)
 
 	itemHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.Item{},
-		RawMessage:   &protocol.RawItem{},
-		Topic:        "items",
+		Producer:   producer,
+		RawMessage: &protocol.RawItem{},
+		Topic:      "items",
 	}
 	http.Handle("/items", itemHandler)
 
 	interactionHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.Interaction{},
-		RawMessage:   &protocol.RawInteraction{},
-		Topic:        "interactions",
+		Producer:   producer,
+		RawMessage: &protocol.RawInteraction{},
+		Topic:      "interactions",
 	}
 	http.Handle("/interactions", interactionHandler)
 
 	targetItemHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.TargetItem{},
-		RawMessage:   &protocol.RawTargetItem{},
-		Topic:        "target_items",
+		Producer:   producer,
+		RawMessage: &protocol.RawTargetItem{},
+		Topic:      "target_items",
 	}
 	http.Handle("/target_items", targetItemHandler)
 
 	targetUserHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.TargetUser{},
-		RawMessage:   &protocol.RawTargetUser{},
-		Topic:        "target_users",
+		Producer:   producer,
+		RawMessage: &protocol.RawTargetUser{},
+		Topic:      "target_users",
 	}
 	http.Handle("/target_users", targetUserHandler)
 
