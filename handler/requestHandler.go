@@ -24,25 +24,25 @@ type RequestHandler struct {
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		if r := recover(); r != nil {
-			h.answerWith(w, 500)
+			h.answerWith(w, http.StatusInternalServerError)
 		}
 	}()
 
 	if err := checkToken(r); err != nil {
 		fmt.Println(err)
-		h.answerWith(w, 401)
+		h.answerWith(w, http.StatusForbidden)
 		return
 	}
 
 	h.RawMessage.Reset()
 	if err := jsonpb.Unmarshal(r.Body, h.RawMessage); err != nil {
-		h.answerWith(w, 500)
+		h.answerWith(w, http.StatusBadRequest)
 		return
 	}
 
 	message, err := proto.Marshal(h.RawMessage.Parse())
 	if err != nil {
-		h.answerWith(w, 500)
+		h.answerWith(w, http.StatusInternalServerError)
 		return
 	}
 	m := &sarama.ProducerMessage{
@@ -51,7 +51,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.Producer.Input() <- m
-	h.answerWith(w, 200)
+	h.answerWith(w, http.StatusOK)
 }
 
 func (h *RequestHandler) answerWith(w http.ResponseWriter, code int) {
