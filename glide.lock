@@ -6,7 +6,7 @@ imports:
   subpackages:
   - quantile
 - name: github.com/codeuniversity/xing-datahub-protocol
-  version: 2dfee0c7c05851f18bb0f664bea533cd7e1627a3
+  version: e7f83734e28e148dd0095449247fcc069ad09b89
 - name: github.com/davecgh/go-spew
   version: db69d09d2c587e9b9677f991dfcab1fc24d9086e
   subpackages:

@@ -16,22 +16,22 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestRequestHandler(t *testing.T) {
-	Convey("Given a wrong user", t, func() {
+func TestRequestHandlerForUsers(t *testing.T) {
+	config := sarama.NewConfig()
+	config.Producer.Return.Successes = false
+	config.Producer.Return.Errors = false
+	producer := mocks.NewAsyncProducer(t, config)
+	handler := RequestHandler{
+		Producer:   producer,
+		RawMessage: &protocol.RawUser{},
+		Topic:      "users",
+	}
+	Convey("Given a correct user", t, func() {
 		user := &protocol.User{Id: 1}
 		marshaler := &jsonpb.Marshaler{}
-		message, err := marshaler.MarshalToString(user)
+		message, err := marshaler.MarshalToString(user.Parse())
 		So(err, ShouldBeNil)
 		reader := strings.NewReader(message)
-		config := sarama.NewConfig()
-		config.Producer.Return.Successes = false
-		config.Producer.Return.Errors = false
-		producer := mocks.NewAsyncProducer(t, config)
-		handler := RequestHandler{
-			Producer:   producer,
-			RawMessage: &protocol.RawUser{},
-			Topic:      "users",
-		}
 		Convey("With no access-token", func() {
 			req := httptest.NewRequest("POST", "/users", reader)
 			resp := httptest.NewRecorder()
@@ -44,6 +44,7 @@ func TestRequestHandler(t *testing.T) {
 
 			Convey("When there is no token defined in os.env", func() {
 				os.Setenv("token", "")
+				producer.ExpectInputAndSucceed()
 				handler.ServeHTTP(resp, req)
 
 				So(resp.Code, ShouldNotEqual, http.StatusUnauthorized)
@@ -56,6 +57,7 @@ func TestRequestHandler(t *testing.T) {
 			resp := httptest.NewRecorder()
 			Convey("When there is a token defined in os.env", func() {
 				os.Setenv("token", "123")
+				producer.ExpectInputAndSucceed()
 				handler.ServeHTTP(resp, req)
 
 				So(resp.Code, ShouldNotEqual, http.StatusUnauthorized)
@@ -63,14 +65,29 @@ func TestRequestHandler(t *testing.T) {
 
 			Convey("When there is no token defined in os.env", func() {
 				os.Setenv("token", "")
+				producer.ExpectInputAndSucceed()
 				handler.ServeHTTP(resp, req)
 
 				So(resp.Code, ShouldNotEqual, http.StatusUnauthorized)
 			})
 			Convey("We answer with the correct code", func() {
 				handler.ServeHTTP(resp, req)
-				So(resp.Code, ShouldEqual, http.StatusBadRequest)
+				producer.ExpectInputAndSucceed()
+				So(resp.Code, ShouldEqual, http.StatusOK)
 			})
 		})
+	})
+	Convey("Given an invalid user", t, func() {
+		user := &protocol.User{Id: 1}
+		marshaler := &jsonpb.Marshaler{}
+		message, err := marshaler.MarshalToString(user)
+		So(err, ShouldBeNil)
+		reader := strings.NewReader(message)
+		req := httptest.NewRequest("POST", "/users", reader)
+		resp := httptest.NewRecorder()
+
+		os.Setenv("token", "")
+		handler.ServeHTTP(resp, req)
+		So(resp.Code, ShouldEqual, http.StatusBadRequest)
 	})
 }
