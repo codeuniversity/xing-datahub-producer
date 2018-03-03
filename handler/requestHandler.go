@@ -30,7 +30,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if err := checkToken(r); err != nil {
 		fmt.Println(err)
-		h.answerWith(w, http.StatusForbidden)
+		h.answerWith(w, http.StatusUnauthorized)
 		return
 	}
 
