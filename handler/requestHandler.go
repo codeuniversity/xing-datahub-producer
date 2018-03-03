@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -29,7 +28,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	if err := checkToken(r); err != nil {
-		fmt.Println(err)
+		// fmt.Println(err) // TODO: use actual logger
 		h.answerWith(w, http.StatusUnauthorized)
 		return
 	}
