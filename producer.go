@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/handler"
