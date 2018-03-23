@@ -1,8 +1,12 @@
-hash: 30c2c0c842bbcd23ccf3546885182c24ba32cd24774a4786325a80f27fd7060f
-updated: 2018-02-14T09:43:31.786809+01:00
+hash: 60f04199ae0c9455fece55fee01e0db595e2d9e43a332596934265dc96fc6d07
+updated: 2018-03-03T10:00:31.888603+01:00
 imports:
+- name: github.com/beorn7/perks
+  version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
+  subpackages:
+  - quantile
 - name: github.com/codeuniversity/xing-datahub-protocol
-  version: 10fc0bbb51dc66246ecfa433e4bf3d370e4fb19e
+  version: e7f83734e28e148dd0095449247fcc069ad09b89
 - name: github.com/davecgh/go-spew
   version: db69d09d2c587e9b9677f991dfcab1fc24d9086e
   subpackages:
@@ -15,6 +19,10 @@ imports:
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
   version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
+- name: github.com/gogo/protobuf
+  version: 41168f6614b7bb144818ec8967b8c702705df564
+  subpackages:
+  - proto
 - name: github.com/golang/protobuf
   version: 925541529c1fa6821df4e44ce2723319eb2be768
   subpackages:
@@ -23,6 +31,10 @@ imports:
   - ptypes/struct
 - name: github.com/golang/snappy
   version: 553a641470496b2327abcac10b36396bd98e45c9
+- name: github.com/matttproud/golang_protobuf_extensions
+  version: c12348ce28de40eed0136aa2b644d0ee0650e56c
+  subpackages:
+  - pbutil
 - name: github.com/pierrec/lz4
   version: ed8d4cc3b461464e69798080a0092bd028910298
 - name: github.com/pierrec/xxHash
@@ -33,13 +45,48 @@ imports:
   version: 967789050ba94deca04a5e84cce8ad472ce313c1
   subpackages:
   - prometheus
+- name: github.com/prometheus/client_model
+  version: 99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c
+  subpackages:
+  - go
+- name: github.com/prometheus/common
+  version: 6fb6fce6f8b75884b92e1889c150403fc0872c5e
+  subpackages:
+  - expfmt
+  - internal/bitbucket.org/ww/goautoneg
+  - model
+- name: github.com/prometheus/procfs
+  version: d274e363d5759d1c916232217be421f1cc89c5fe
+  subpackages:
+  - internal/util
+  - nfs
+  - xfs
 - name: github.com/rcrowley/go-metrics
   version: 8732c616f52954686704c8645fe1a9d59e9df7c1
 - name: github.com/Shopify/sarama
   version: f7be6aa2bc7b2e38edf816b08b582782194a1c02
+  subpackages:
+  - mocks
+- name: github.com/smartystreets/goconvey
+  version: 9e8dc3f972df6c8fcc0375ef492c24d0bb204857
+  subpackages:
+  - convey
+  - convey/gotest
+  - convey/reporting
 - name: golang.org/x/crypto
   version: 1875d0a70c90e57f11972aefd42276df65e895b9
   subpackages:
   - acme
   - acme/autocert
-testImports: []
+testImports:
+- name: github.com/gopherjs/gopherjs
+  version: 265040a1352e0bb611e87f5b985bf83600c66cce
+  subpackages:
+  - js
+- name: github.com/jtolds/gls
+  version: 77f18212c9c7edc9bd6a33d383a7b545ce62f064
+- name: github.com/smartystreets/assertions
+  version: 9c0ea8acbc1d8ad689f9e6fe0c1fa5838e0cabc2
+  subpackages:
+  - internal/go-render/render
+  - internal/oglematchers

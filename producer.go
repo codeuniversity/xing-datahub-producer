@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/handler"
@@ -26,37 +27,37 @@ func main() {
 	initPrometheus()
 
 	userHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.User{},
-		Topic:        "users",
+		Producer:   producer,
+		RawMessage: &protocol.RawUser{},
+		Topic:      "users",
 	}
 	http.Handle("/users", userHandler)
 
 	itemHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.Item{},
-		Topic:        "items",
+		Producer:   producer,
+		RawMessage: &protocol.RawItem{},
+		Topic:      "items",
 	}
 	http.Handle("/items", itemHandler)
 
 	interactionHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.Interaction{},
-		Topic:        "interactions",
+		Producer:   producer,
+		RawMessage: &protocol.RawInteraction{},
+		Topic:      "interactions",
 	}
 	http.Handle("/interactions", interactionHandler)
 
 	targetItemHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.TargetItem{},
-		Topic:        "target_items",
+		Producer:   producer,
+		RawMessage: &protocol.RawTargetItem{},
+		Topic:      "target_items",
 	}
 	http.Handle("/target_items", targetItemHandler)
 
 	targetUserHandler := handler.RequestHandler{
-		Producer:     producer,
-		ProtoMessage: &protocol.TargetUser{},
-		Topic:        "target_users",
+		Producer:   producer,
+		RawMessage: &protocol.RawTargetUser{},
+		Topic:      "target_users",
 	}
 	http.Handle("/target_users", targetUserHandler)
 

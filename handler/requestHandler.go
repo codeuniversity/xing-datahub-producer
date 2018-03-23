@@ -2,36 +2,46 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/Shopify/sarama"
 	"github.com/codeuniversity/xing-datahub-producer/metrics"
+	protocol "github.com/codeuniversity/xing-datahub-protocol"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 )
 
 // RequestHandler serializes json posts to protobuf messages and pushes them to the specified kafka topic
 type RequestHandler struct {
-	Producer     sarama.AsyncProducer
-	Topic        string
-	ProtoMessage proto.Message
+	Producer   sarama.AsyncProducer
+	Topic      string
+	RawMessage protocol.RawMessage
 }
 
 func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if r := recover(); r != nil {
+			h.answerWith(w, http.StatusInternalServerError)
+		}
+	}()
+
 	if err := checkToken(r); err != nil {
-		fmt.Println(err)
-		h.answerWith(w, 401)
+		// fmt.Println(err) // TODO: use actual logger
+		h.answerWith(w, http.StatusUnauthorized)
 		return
 	}
 
-	h.ProtoMessage.Reset()
-	jsonpb.Unmarshal(r.Body, h.ProtoMessage)
-	message, err := proto.Marshal(h.ProtoMessage)
+	h.RawMessage.Reset()
+	if err := jsonpb.Unmarshal(r.Body, h.RawMessage); err != nil {
+		h.answerWith(w, http.StatusBadRequest)
+		return
+	}
+
+	message, err := proto.Marshal(h.RawMessage.Parse())
 	if err != nil {
-		h.answerWith(w, 500)
+		h.answerWith(w, http.StatusInternalServerError)
 		return
 	}
 	m := &sarama.ProducerMessage{
@@ -40,7 +50,7 @@ func (h RequestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.Producer.Input() <- m
-	h.answerWith(w, 200)
+	h.answerWith(w, http.StatusOK)
 }
 
 func (h *RequestHandler) answerWith(w http.ResponseWriter, code int) {

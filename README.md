@@ -8,10 +8,5 @@
 - `make run`
 
 # Run in Docker
-- In one terminal: `docker-compose up`
-- In another terminal: `docker-compose exec go bash`
-- Now you can use `make dep` and `make run` to install dependencies and run
-  your code.
-- Note: when running `make dep` you may get asked to login to your github
-  account to get access to the codeuniversity repository, do so using as
-  password the token generated for single log on.
+- docker build -t producer .
+- docker run -p 3000:3000 --net="host" --rm --name producer producer

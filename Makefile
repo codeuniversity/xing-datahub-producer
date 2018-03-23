@@ -7,3 +7,5 @@ make proto:
 make run:
 	go run producer.go
 
+make test:
+	go test ./...
