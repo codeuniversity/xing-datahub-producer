@@ -1,10 +1,11 @@
-FROM golang:1.8
+FROM golang:1.8 as builder
 WORKDIR /go/src/github.com/codeuniversity/xing-datahub-producer
 RUN curl https://glide.sh/get | sh
 COPY . .
-RUN make dep
-RUN go build producer.go
-RUN chmod +x producer
-RUN ls
-ENTRYPOINT ./producer
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o producer .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /go/src/github.com/codeuniversity/xing-datahub-producer/producer .
+CMD [ "./producer" ]
 EXPOSE 3000
